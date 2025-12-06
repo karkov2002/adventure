@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid px-3">
+        <h1>Tree</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div id="canvas-wrapper">
+                            <div id="tools-panel">
+                                <div class="tool-item" id="add-page-tool" title="Ajouter une page">
+                                    <span style="font-size: 28px;">📄</span>
+                                </div>
+
+                                <div class="tool-separator"></div>
+
+                                <div class="tool-item" id="save-tool" title="Sauvegarder">
+                                    <span style="font-size: 28px;">💾</span>
+                                </div>
+
+                                <div class="tool-item" id="load-tool" title="Charger">
+                                    <span style="font-size: 28px;">📂</span>
+                                </div>
+                            </div>
+                            <canvas id="main-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>💾 JSON Data</h5>
+                    </div>
+                    <div class="card-body p-2">
+                        <textarea id="json-data" class="form-control" style="height: calc(90vh - 60px); font-family: monospace; font-size: 12px;" placeholder="Le JSON du projet apparaîtra ici..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

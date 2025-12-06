@@ -1,0 +1,5 @@
+controllers:
+    resource:
+        path: ../src/Clientside/Controller/
+        namespace: App\Clientside\Controller
+    type: attribute

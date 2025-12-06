@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% include 'menu/menu.html.twig' %}
+
+    <div class="container-fluid px-3">
+        <h1 class="display-5">Users</h1>
+        <div class="row">
+            {% for user in users %}
+                <div class="col-md-3">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ user.email }}</h4>
+                            <div class="card-text">
+                                <ul>
+                                    <li>Roles : {{ user.roles|json_encode }}</li>
+                                </ul>
+                            </div>
+                            <a href="{{ path('edit-user', {'id': user.id}) }}"><button class="btn btn-primary">Editer</button></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <br />
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ path('edit-user') }}"><input type="button" value="Ajouter un utilisateur" class="btn btn-secondary btn-validation" /></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

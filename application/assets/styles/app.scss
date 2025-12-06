@@ -1,0 +1,65 @@
+@import "variables";
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.min.css";
+@import "form";
+
+body {
+    font-size: 12px;
+    max-width: 100% !important;
+    background-color: $body-bg !important;
+    font-family: $font-family-sans-serif;
+    padding: 0 !important;
+}
+
+:root {
+    --bs-border-radius: 8px;
+}
+
+.btn.btn-primary {
+    outline-color: rgb(48, 48, 48);
+    lighting-color: rgb(255,255,255);
+    box-shadow: rgba(0, 0, 0, 0.8) 0 -1px 0 1px inset, rgb(48, 48, 48) 0 0 0 1px inset, rgba(255, 255, 255, 0.25) 0 0.5px 0 1.5px inset;
+    &:hover {
+        background-color: $black;
+    }
+}
+
+.bd-subnavbar {
+    position: sticky;
+    z-index: 1020;
+    background-color: rgba(255,255,255,0.95);
+    box-shadow: inset 0 -1px 0 #ebebeb;
+}
+
+.card {
+    border: 0;
+    box-shadow: rgba(26, 26, 26, 0.07) 0 1px 0 0;
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        pointer-events: none;
+        border-radius: $card-border-radius;
+        box-shadow: rgba(0, 0, 0, 0.13) 1px 0 0 0 inset, rgba(0, 0, 0, 0.13) -1px 0 0 0 inset, rgba(0, 0, 0, 0.17) 0 -1px 0 0 inset, rgba(204, 204, 204, 0.5) 0 1px 0 0 inset;
+    }
+}
+
+.navbar-brand {
+    letter-spacing: -.05rem;
+
+    &::before {
+        content: "";
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 2px solid $black;
+        border-right: 0;
+        border-bottom: 0;
+        transform: rotate(45deg) translateY(6px);
+        margin: 0 5px 0 10px;
+    }
+}

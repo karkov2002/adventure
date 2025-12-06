@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% form_theme edit_user_form 'layout/form.html.twig' %}
+
+{% block body %}
+    {% include 'menu/menu.html.twig' %}
+
+    <div class="container-fluid px-3">
+        <h1 class="display-5">
+            {% if user.id is null %}
+                Create new user
+            {% else %}
+                Edit user
+            {% endif %}
+        </h1>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ user.email }}</h4>
+                        <div class="card-text">
+                            {{ form_start(edit_user_form, { 'attr': {'class': 'form_config_shopify'}}) }}
+                            {{ form_row(edit_user_form) }}
+                            <br />
+                            <div class="mb-0 d-flex justify-content-between">
+                                <span>
+                                    <input type="submit" value="Sauver" class="btn btn-primary btn-validation" />
+                                </span>
+                                {% if user.id is not null %}
+                                    <a href="{{ path('delete-user', {'id': user.id } ) }}" class="d-inline-block">
+                                        <input type="button" id="delete_user_button" value="Supprimer" class="btn btn-danger btn-validation confirm">
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            {{ form_end(edit_user_form) }}
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ path('user') }}"><button class="btn btn-secondary">Retour</button></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

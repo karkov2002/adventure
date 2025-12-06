@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% include 'menu/menu.html.twig' %}
+    <div class="container-fluid px-3">
+        <h1>Welcome to <strong>Adventure</strong> app</h1>
+        <div class="row">
+            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="col-md-4">
+                <div id="app_configuration">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h2>Identification</h2>
+                            </div>
+                            <a href="/login" class="btn btn-primary">Se connecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            {% endif %}
+            <div class="col-md-4">
+                <div id="app_configuration">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h2>Contact</h2>
+                            </div>
+                            <a href="{{ path('tree') }}">Tree</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

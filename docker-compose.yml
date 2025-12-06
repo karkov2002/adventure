@@ -1,0 +1,119 @@
+services:
+
+  #Apache 2.4
+  apache:
+    image: "i_${PROJECTNAME}_apache"
+    container_name: "c_${PROJECTNAME}_apache"
+    hostname: apache
+    build:
+      context: .
+      dockerfile: ./docker/apache/Dockerfile
+      args:
+        - UID=${UID}
+        - GID=${GID}
+    ports:
+      - 80:80
+      - 443:443
+      - 8000:8000
+    volumes:
+      - ./application:/var/www/html
+      - ./docker/shell:/var/www/shell
+      - /etc/hosts:/var/www/hosts
+    env_file:
+      - .env
+#    networks:
+#      public_net:
+#        ipv4_address: "${IP_APACHE}"
+
+  # PHP CLI
+  php: &php
+    container_name: "c_${PROJECTNAME}_php"
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+      args:
+        - UID=${UID}
+        - GID=${GID}
+    depends_on:
+      - apache
+      - mariadb
+    env_file:
+      - .env
+    environment:
+      SSH_AUTH_SOCK: /tmp/agent.sock
+      XDEBUG_CONFIG: remote_host=${XDEBUG_HOST} remote_port=${XDEBUG_PORT} idekey=${XDEBUG_IDEKEY}
+      PHP_IDE_CONFIG: serverName=${PROJECTNAME}
+    volumes:
+      - ~/.ssh:/var/www/.ssh
+      - ./application:/var/www/html
+      - ./docker/shell:/var/www/shell
+      - ~/.composer:/var/www/.composer
+      - ~/tmp/.composer:/tmp/.composer
+      - /etc/hosts:/var/www/hosts
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  #PHP with FastCGI for web server
+  php-fpm:
+    <<: *php
+    container_name: "c_${PROJECTNAME}_phpfpm"
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+      args:
+        - UID=${UID}
+        - GID=${GID}
+    depends_on:
+      - apache
+      - mariadb
+
+  #MariaDB
+  mariadb:
+    image: "i_${PROJECTNAME}_mariadb"
+    container_name: "c_${PROJECTNAME}_mariadb"
+    build: ./docker/mariadb
+    ports:
+      - 3306:3306
+    env_file:
+      - .env
+
+  #PhpMyAdmin
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    container_name: "c_${PROJECTNAME}_phpmyadmin"
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mariadb
+    volumes:
+      - /sessions
+    links:
+      - mariadb
+    depends_on:
+      - mariadb
+
+  #Node npm & yarn
+  node:
+    container_name: "c_${PROJECTNAME}_node"
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+      args:
+        - UID=${UID}
+        - GID=${GID}
+    env_file:
+      - .env
+    volumes:
+      - ./application:/var/www/html
+      - ~/.npm:/var/www/.npm
+    ports:
+      - 8089:8089
+      - 3333:3333
+
+  # Maihog
+  mailhog:
+    image: "mailhog/mailhog"
+    container_name: "c_${PROJECTNAME}_mailhog"
+    ports:
+      - 1025:1025
+      - 8025:8025
